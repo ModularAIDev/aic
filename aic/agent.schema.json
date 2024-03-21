@@ -23,5 +23,5 @@
         "description": "A list of tools (pip packages, URIs, or names) that the character supports."
       }
     },
-    "required": ["version", "roleName", "prePromo"]
+    "required": ["version", "roleName", "backstory"]
 }

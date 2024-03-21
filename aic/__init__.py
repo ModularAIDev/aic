@@ -1,6 +1,6 @@
 from google.cloud import storage
 from jsonschema import validate
-from typing import List
+from typing import List, Any
 import json
 
 BUCKET_NAME="ai-characters"
@@ -14,6 +14,12 @@ class AICharacter:
         self.tools = tools
 
 
+def load_chracter_schema() -> Any:
+    """Load the JSON schema from a file."""
+    with open('aic/agent.schema.json', 'r') as file:
+        return json.load(file)
+
+
 def load_character(key: str) -> AICharacter:
     client = storage.Client()
     bucket = client.bucket(BUCKET_NAME)
@@ -21,6 +27,10 @@ def load_character(key: str) -> AICharacter:
     blob = bucket.blob(blob_name)
     character_json = blob.download_as_text()
     character_data = json.loads(character_json)
+
+    # Load the agent schema
+    schema = load_chracter_schema()
+
     validate(instance=character_data, schema=schema)
 
     # Create an AICharacter instance from the JSON data
