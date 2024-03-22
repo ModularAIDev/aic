@@ -1,6 +1,8 @@
 from google.cloud import storage
 from jsonschema import validate
 from typing import List, Any
+from pkg_resources import resource_string, resource_exists, ResourceError
+
 import json
 
 BUCKET_NAME="ai-characters"
@@ -14,10 +16,27 @@ class AICharacter:
         self.tools = tools
 
 
+def load_json_resource(package: str, resource_name: str):
+    try:
+        # Try to access the resource as if the package is installed
+        if resource_exists(package, resource_name):
+            resource = resource_string(package, resource_name)
+            return json.loads(resource.decode('utf-8'))
+    except ResourceError:
+        # The resource wasn't found using pkg_resources, likely not installed
+        pass
+
+    # Fallback to a relative path (useful during development/testing)
+    relative_path = os.path.join(os.path.dirname(__file__), resource_name)
+    with open(relative_path, 'r') as file:
+        return json.load(file)
+
+
 def load_chracter_schema() -> Any:
     """Load the JSON schema from a file."""
-    with open('aic/agent.schema.json', 'r') as file:
-        return json.load(file)
+    schema_path = load_json_resource('aic', 'agent.schema.json')
+    with open(schema_path, 'r') as schema_file:
+        schema = json.load(schema_file)
 
 
 def load_character(key: str) -> AICharacter:
