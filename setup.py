@@ -10,7 +10,7 @@ def read_requirements():
 install_requires = read_requirements()
 
 setup(
-    name='aic',
+    name='ai_characters',
     version='0.1',
     packages=find_packages(),
     description='Client for AI Characters',
