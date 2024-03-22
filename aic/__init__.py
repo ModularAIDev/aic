@@ -1,7 +1,7 @@
 from google.cloud import storage
 from jsonschema import validate
 from typing import List, Any
-from pkg_resources import resource_string, resource_exists, ResourceError
+from pkg_resources import resource_string, resource_exists
 
 import json
 
@@ -22,8 +22,10 @@ def load_json_resource(package: str, resource_name: str):
         if resource_exists(package, resource_name):
             resource = resource_string(package, resource_name)
             return json.loads(resource.decode('utf-8'))
-    except ResourceError:
+    except Exception as e:
         # The resource wasn't found using pkg_resources, likely not installed
+        print(f"Error accessing the resource through pkg_resources: {e}")
+        print("Assuming that this is local run")
         pass
 
     # Fallback to a relative path (useful during development/testing)
