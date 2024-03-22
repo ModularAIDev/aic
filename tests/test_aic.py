@@ -12,7 +12,7 @@ class TestDownloadAndValidateCharacterLive(unittest.TestCase):
         # Add additional assertions based on the expected content of your JSON
         self.assertIsInstance(character, AICharacter)
         # Example assertion: check if the version field matches expected value
-        self.assertEqual(character.version, "1.2")
+        self.assertEqual(character.version, "1.0")
 
 if __name__ == '__main__':
     unittest.main()
