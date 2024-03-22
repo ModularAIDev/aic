@@ -36,9 +36,7 @@ def load_json_resource(package: str, resource_name: str):
 
 def load_chracter_schema() -> Any:
     """Load the JSON schema from a file."""
-    schema_path = load_json_resource('aic', 'agent.schema.json')
-    with open(schema_path, 'r') as schema_file:
-        schema = json.load(schema_file)
+    return load_json_resource('aic', 'agent.schema.json')
 
 
 def load_character(key: str) -> AICharacter:
