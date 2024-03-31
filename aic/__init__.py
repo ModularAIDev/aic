@@ -2,6 +2,7 @@ from google.cloud import storage
 from jsonschema import validate
 from typing import List, Any
 from pkg_resources import resource_string, resource_exists
+from crewai import Agent
 
 import json
 
@@ -64,3 +65,16 @@ def load_character(key: str) -> AICharacter:
     )
     
     return character
+
+
+def load_agent(character_id: str, llm, goal, verbose=True) -> Agent:
+    character = load_character(character_id)
+    return Agent(
+        role=character.roleName,
+        goal=goal,
+        backstory=character.backstory,
+        tools=[],
+        llm=llm,
+        verbose=verbose,
+        allow_delegation=True
+    )
