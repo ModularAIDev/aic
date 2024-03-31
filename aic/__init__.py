@@ -40,7 +40,7 @@ def load_chracter_schema() -> Any:
 
 
 def load_character(key: str) -> AICharacter:
-    client = storage.Client()
+    client = storage.Client.create_anonymous_client()
     bucket = client.bucket(BUCKET_NAME)
     blob_name = f"public/{key}/character.json"
     blob = bucket.blob(blob_name)
