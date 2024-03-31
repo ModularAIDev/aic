@@ -52,12 +52,15 @@ def load_character(key: str) -> AICharacter:
 
     validate(instance=character_data, schema=schema)
 
+    tools = None
+    if 'tools' in character_data:
+        tools = character_data['tools']
     # Create an AICharacter instance from the JSON data
     character = AICharacter(
         version=character_data['version'],
         roleName=character_data['roleName'],
         backstory=character_data['backstory'],
-        tools=character_data['tools']
+        tools=tools
     )
     
     return character
