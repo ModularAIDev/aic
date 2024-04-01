@@ -11,7 +11,7 @@ install_requires = read_requirements()
 
 setup(
     name='ai_characters',
-    version='1.1.0',
+    version='1.2.0',
     packages=find_packages(),
     description='Client for AI Characters',
     long_description=open('README.md').read(),

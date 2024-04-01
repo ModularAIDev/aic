@@ -3,11 +3,14 @@ from jsonschema import validate
 from typing import List, Any
 from pkg_resources import resource_string, resource_exists
 from crewai import Agent
+from tools.datetime import get_datetime
 
 import json
 
 BUCKET_NAME="ai-characters"
-
+TOOLS = {
+    "DATETIME": get_datetime
+}
 
 class AICharacter:
     def __init__(self, version: str, roleName: str, backstory: str, tools: List[str]):
@@ -70,8 +73,17 @@ def load_character(key: str) -> AICharacter:
     return character
 
 
-def load_agent(character_id: str, llm, goal, tools=[], verbose=True) -> Agent:
+def _load_agent_tools(character: AICharacter) -> List[Any]:
+    tools = []
+    if character.tools is not None:
+        for tool_name in character.tools:
+            tools.append(TOOLS[tool_name])
+    return tools
+
+
+def load_agent(character_id: str, llm, goal, tools=[], allow_delegation=True, verbose=True) -> Agent:
     character = load_character(character_id)
+    tools.append(_load_agent_tools(character))
     return Agent(
         role=character.roleName,
         goal=goal,
@@ -79,5 +91,5 @@ def load_agent(character_id: str, llm, goal, tools=[], verbose=True) -> Agent:
         tools=tools,
         llm=llm,
         verbose=verbose,
-        allow_delegation=True
+        allow_delegation=allow_delegation
     )
