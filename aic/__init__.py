@@ -47,6 +47,9 @@ def load_character(key: str) -> AICharacter:
     blob = bucket.blob(blob_name)
     character_json = blob.download_as_text()
     character_data = json.loads(character_json)
+    backstory_blob_name = f"public/{key}/backstory.md"
+    backstory_blob = bucket.blob(backstory_blob_name)
+    backstory = backstory_blob.download_as_text()
 
     # Load the agent schema
     schema = load_chracter_schema()
@@ -60,7 +63,7 @@ def load_character(key: str) -> AICharacter:
     character = AICharacter(
         version=character_data['version'],
         roleName=character_data['roleName'],
-        backstory=character_data['backstory'],
+        backstory=backstory,
         tools=tools
     )
     

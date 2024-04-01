@@ -11,10 +11,6 @@
         "type": "string",
         "description": "The role name of the AI character."
       },
-      "backstory": {
-        "type": "string",
-        "description": "The backstory of the AI character."
-      },
       "tools": {
         "type": "array",
         "items": {
@@ -23,5 +19,5 @@
         "description": "A list of tools (pip packages, URIs, or names) that the character supports."
       }
     },
-    "required": ["version", "roleName", "backstory"]
+    "required": ["version", "roleName"]
 }
