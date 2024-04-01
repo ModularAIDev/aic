@@ -70,13 +70,13 @@ def load_character(key: str) -> AICharacter:
     return character
 
 
-def load_agent(character_id: str, llm, goal, verbose=True) -> Agent:
+def load_agent(character_id: str, llm, goal, tools=[], verbose=True) -> Agent:
     character = load_character(character_id)
     return Agent(
         role=character.roleName,
         goal=goal,
         backstory=character.backstory,
-        tools=[],
+        tools=tools,
         llm=llm,
         verbose=verbose,
         allow_delegation=True
