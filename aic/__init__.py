@@ -3,7 +3,7 @@ from jsonschema import validate
 from typing import List, Any
 from pkg_resources import resource_string, resource_exists
 from crewai import Agent
-from tools.datetime import get_datetime
+from aic_tools.datetime import get_datetime
 
 import json
 
@@ -83,7 +83,7 @@ def _load_agent_tools(character: AICharacter) -> List[Any]:
 
 def load_agent(character_id: str, llm, goal, tools=[], allow_delegation=True, verbose=True) -> Agent:
     character = load_character(character_id)
-    tools.append(_load_agent_tools(character))
+    tools = tools + _load_agent_tools(character)
     return Agent(
         role=character.roleName,
         goal=goal,
