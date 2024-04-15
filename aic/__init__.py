@@ -4,12 +4,15 @@ from typing import List, Any
 from pkg_resources import resource_string, resource_exists
 from crewai import Agent
 from aic_tools.datetime import get_datetime
+from aic_tools_fs import ls, cat
 
 import json
 
 BUCKET_NAME="ai-characters"
 TOOLS = {
-    "DATETIME": get_datetime
+    "DATETIME": get_datetime,
+    "ls": ls,
+    "cat": cat
 }
 
 class AICharacter:
